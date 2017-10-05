@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <script type="text/javascript" src='http://code.jquery.com/jquery-1.10.2.min.js'></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css">
+  <script src=" https://code.jquery.com/jquery-3.2.1.slim.min.js "></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js ">
+  </script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js">
+  </script>
+  <meta charset="utf-8">
+  <title>Form</title>
+</head>
+
+<body>
+  <div id="wrapper" class="container">
+    <form action="submit" class="col-xs-4 col-md-4" method="post">
+      <div class="form-group">
+        <label for="name"><h4>hello <%=user.name%></h4></label>
+        <input type="text" class="form-control" id="name" name="name" placeholder="<%=user.name%>">
+
+      </div>
+      <label for="location">Dojo Location</label>
+      <select class="form-control" id="location" name="location">
+      <option><%=user.location%></option>
+
+    </select>
+      <label for="location">Favorite Language</label>
+      <select class="form-control" name="language">
+    <option><%=user.language%></option>
+
+  </select>
+      <label for="comment">Comment (optiona)</label>
+      <textarea class="form-control" name="comment" rows="3"> <%=user.comment%></textarea>
+      <!-- <input type="text" name="name"> -->
+      <a href='/' class="btn btn-primary btn-lg active " role="button ">Back</a><br>
+    </form>
+  </div>
+</body>
+
+</html>

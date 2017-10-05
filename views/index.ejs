@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <script type="text/javascript" src='http://code.jquery.com/jquery-1.10.2.min.js'></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css">
+  <script src=" https://code.jquery.com/jquery-3.2.1.slim.min.js "></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js ">
+  </script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js">
+  </script>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function() {
+      // this triggers the connection event in our server!
+      var socket = io.connect('http://localhost:8050');
+      // we'll write all the socket stuff after the above line!
+      // $('button').click(function() {
+      //   // socket.emit("button_clicked", {
+      //   //   reason: "because I want to learn about sockets!"
+      //   // });
+      // });
+      $('#form').submit(function(e) {
+        e.preventDefault();
+        // socket.emit('message', $('#name').val());
+        var context = {
+          name: $(this.name).val(),
+          location: $(this.location).val(),
+          language: $(this.language).val(),
+          comment: $(this.comment).val()
+        }
+        socket.emit('context', {
+          user: context
+        });
+
+        // console.log(user.name);
+
+      });
+      socket.on('server_response', function(data) {
+        console.log('You emitted the following information to the server: ' + data.response);
+      });
+      socket.on('updated_message', function(data) {
+        console.log(data.key);
+        $('#top_bar').html(data.key);
+      });
+      socket.on('random', function(data) {
+        console.log(data.rand);
+        $('#top_bar').append(data.rand);
+      });
+    })
+  </script>
+
+  <meta charset="utf-8">
+  <title>Form</title>
+</head>
+
+<body>
+  <div id="top_bar" class="container bg-success text-white h5">
+
+  </div>
+  <div id="wrapper" class="container">
+    <form action="submit" class="col-xs-4 col-md-4" id="form" method="post">
+      <div class="form-group">
+        <label for="name"><h4>Your Name</h4></label>
+        <input required type="text" class="form-control" id="name" name="name" aria-describedby="nameHelp" placeholder="Enter name">
+        <small id="nameHelp" class="form-text text-muted">We'll share your info with everyone.</small>
+      </div>
+      <label for="location">Dojo Location</label>
+      <select class="form-control" id="location" name="location">
+      <option>Mountain View</option>
+      <option>San Jose</option>
+      <option>Las Vegas</option>
+      <option>Washington</option>
+    </select>
+      <label for="language">Favorite Language</label>
+      <select required class="form-control" name="language">
+    <option>Javascript</option>
+    <option>Python</option>
+    <option>Swift</option>
+    <option>English</option>
+
+  </select>
+      <label for="comment">Comment (optiona)</label>
+      <textarea class="form-control" name="comment" rows="3"></textarea>
+      <!-- <input type="text" name="name"> -->
+      <button type="submit " class="btn btn-primary btn-lg active " role="button ">submit</button><br>
+    </form>
+  </div>
+</body>
+
+</html>
